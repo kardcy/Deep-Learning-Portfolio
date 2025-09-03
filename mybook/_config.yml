@@ -1,0 +1,37 @@
+# Book settings
+#title: "Deep Learning Portfolio"   # Title shown in the browser & sidebar
+author: "Karylle dela Cruz"
+logo: "images/logo.png"        # Optional, place your logo in images/
+
+# Jupyter Book settings
+execute:
+  execute_notebooks: auto      # auto | force | cache | off
+  timeout: 60                  # Max seconds for each cell
+
+# HTML settings
+html:
+  favicon: "images/favicon.ico"   # Optional, small icon in browser tab
+  home_page_in_navbar: true
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: true
+  extra_footer: |
+    <p>Created with ❤️ using <a href="https://jupyterbook.org">Jupyter Book</a>.</p>
+
+# Repository info (optional but recommended)
+repository:
+  url: "https://github.com/kardcy/Deep-Learning-Portfolio"
+  branch: main
+  path_to_book: "."
+
+# Table of contents file
+toc: "_toc.yml"
+
+# Sphinx extensions (extra functionality)
+sphinx:
+  extra_extensions:
+    - sphinx.ext.intersphinx
+    - sphinx.ext.todo
+    - sphinx.ext.mathjax
+    - sphinx_copybutton
+    - myst_nb
