@@ -9,6 +9,7 @@ It compiles my course notebooks, exercises, labs, and projects into a profession
 
 ## 📂 Repository Structure  
 
+```bash
 Deep-Learning-Portfolio/
 │
 ├── mybook/ # Jupyter Book project
@@ -21,6 +22,7 @@ Deep-Learning-Portfolio/
 │ └── images/ # Logos, figures, etc.
 │
 └── README.md # Documentation (this file)
+```
 
 ## How to Build and Publish the Book  
 
