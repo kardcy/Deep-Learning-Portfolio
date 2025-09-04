@@ -6,5 +6,7 @@ root: intro
 parts:
 - caption: Laboratory Tasks
   chapters:
+  - file: labs/Lab3
+  - file: labs/Lab4
   - file: labs/Lab5
   
