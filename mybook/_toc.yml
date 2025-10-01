@@ -4,6 +4,9 @@
 format: jb-book
 root: intro
 parts:
+- caption: Lecture Tasks
+  chapters:
+    - file: lectures/Lec1
 - caption: Laboratory Tasks
   chapters:
     - file: labs/Lab3
