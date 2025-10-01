@@ -9,6 +9,7 @@ parts:
     - file: lectures/Lec1
 - caption: Laboratory Tasks
   chapters:
+    - file: labs/Lab2
     - file: labs/Lab3
     - file: labs/Lab4
     - file: labs/Lab5
