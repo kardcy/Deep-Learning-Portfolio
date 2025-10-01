@@ -1,5 +1,7 @@
 # Welcome to My Portfolio
 
+### Hi, I'm Kar!
+
 This book is a collection of my work, experiments, and insights in **Deep Learning and Data Science**.  
 It combines theory, code, and interactive notebooks into a structured resource.
 
