@@ -190,6 +190,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Lab3.html">Laboratory Task 3</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Laboratory Task 4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lab5.html">Laboratory Task 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lab6.html">Laboratory Task 6</a></li>
 </ul>
 
     </div>
@@ -429,177 +430,125 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">TensorDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_regression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">())</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Device: &quot;</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Device:  cpu
-</pre></div>
-</div>
-</div>
-</div>
-<ol class="arabic simple">
-<li><p>Specifiying input and target</p></li>
-</ol>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Input (temp, rainfall, humidity)</span>
-<span class="n">x_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="p">[</span><span class="mi">91</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="mi">87</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">58</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> <span class="p">[</span><span class="mi">69</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">91</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="mi">87</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">58</span><span class="p">],</span> <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">69</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="p">[</span><span class="mi">91</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">87</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">58</span><span class="p">],</span> <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> <span class="p">[</span><span class="mi">69</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="p">[</span><span class="mi">91</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="mi">87</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">58</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> <span class="p">[</span><span class="mi">69</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">91</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> <span class="p">[</span><span class="mi">87</span><span class="p">,</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">58</span><span class="p">],</span> <span class="p">[</span><span class="mi">102</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">69</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">70</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate and scale dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="c1"># Targets (apples, oranges)</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
-    <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">81</span><span class="p">,</span> <span class="mi">101</span><span class="p">],</span> <span class="p">[</span><span class="mi">119</span><span class="p">,</span> <span class="mi">133</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">119</span><span class="p">],</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">81</span><span class="p">,</span> <span class="mi">101</span><span class="p">],</span> <span class="p">[</span><span class="mi">119</span><span class="p">,</span> <span class="mi">133</span><span class="p">],</span> <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">119</span><span class="p">],</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">81</span><span class="p">,</span> <span class="mi">101</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">119</span><span class="p">,</span> <span class="mi">133</span><span class="p">],</span> <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">119</span><span class="p">],</span>
-    <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">81</span><span class="p">,</span> <span class="mi">101</span><span class="p">],</span> <span class="p">[</span><span class="mi">119</span><span class="p">,</span> <span class="mi">133</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">119</span><span class="p">],</span> <span class="p">[</span><span class="mi">56</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">81</span><span class="p">,</span> <span class="mi">101</span><span class="p">],</span> <span class="p">[</span><span class="mi">119</span><span class="p">,</span> <span class="mi">133</span><span class="p">],</span> <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">37</span><span class="p">],</span> 
-    <span class="p">[</span><span class="mi">103</span><span class="p">,</span> <span class="mi">119</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
-<span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
-<span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Wrap into TensorDataset + DataLoader (batch size = 8)</p></li>
-</ol>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
-<span class="n">train_dl</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Define Model (Fully Connected Layers ×2)</p></li>
-</ol>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>   <span class="c1"># Input 3 → Hidden 16</span>
-    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
-    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>    <span class="c1"># Hidden 16 → Output 2</span>
-<span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<ol class="arabic simple" start="4">
-<li><p>Loss and Optimizer</p></li>
-</ol>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">scaler_X</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler_y</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">scaler_y</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># DataLoader</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Model</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LinearRegressionModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegressionModel</span><span class="p">()</span>
+
+<span class="c1"># Loss and Optimizer</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<ol class="arabic simple" start="5">
-<li><p>Training Loop</p></li>
-</ol>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
-        <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
-        
-        <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="n">train_dl</span><span class="p">:</span>
-            <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="o">=</span> <span class="n">xb</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">yb</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
-            <span class="c1"># 1. Forward pass</span>
-            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
-            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+<span class="c1"># Training Loop</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
 
-            <span class="c1"># 2. Backward pass</span>
-            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
 
-            <span class="c1"># 3. Update weights</span>
-            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    
+    <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2">], Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        
-        <span class="c1"># Print progress every 100 epochs</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dl</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s2">], Loss: </span><span class="si">{</span><span class="n">avg_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<ol class="arabic simple" start="6">
-<li><p>Train</p></li>
-</ol>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">train_dl</span><span class="p">)</span>
+<span class="c1"># Evaluate</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">test_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Test MSE Loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot training loss</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training Loss over Epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;MSE Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [100/1000], Loss: 2115.8450
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [100/1000], Loss: 0.014462
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [200/1000], Loss: 1563.4061
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [200/1000], Loss: 0.026885
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [300/1000], Loss: 1366.0153
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [300/1000], Loss: 0.014455
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [400/1000], Loss: 1345.8848
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [400/1000], Loss: 0.028376
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [500/1000], Loss: 947.6197
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [500/1000], Loss: 0.028448
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [600/1000], Loss: 1304.4765
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [600/1000], Loss: 0.033267
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [700/1000], Loss: 1318.9314
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [700/1000], Loss: 0.026122
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [800/1000], Loss: 1100.6841
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [800/1000], Loss: 0.019345
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [900/1000], Loss: 941.6858
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [900/1000], Loss: 0.033127
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1000/1000], Loss: 1322.3995
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch [1000/1000], Loss: 0.025448
+
+Test MSE Loss: 0.035975
 </pre></div>
 </div>
+<img alt="../_images/4ad0aa0ad5d32dad8689792e8342b6f74b88f8ec907f07adfe93e4bdbe5af8f9.png" src="../_images/4ad0aa0ad5d32dad8689792e8342b6f74b88f8ec907f07adfe93e4bdbe5af8f9.png" />
 </div>
 </div>
-<ol class="arabic simple" start="7">
-<li><p>Predictions</p></li>
-</ol>
+<p>Predictions</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Put the model in evaluation mode</span>
@@ -615,57 +564,23 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predictions:
- tensor([[76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481],
-        [76.3849, 92.0481]])
+ tensor([[-0.4495],
+        [ 1.5963],
+        [-1.2181],
+        [-0.2729],
+        [-0.1600],
+        [ 0.4417],
+        [-0.1027],
+        [ 0.5875]])
 Targets:
- tensor([[ 56.,  70.],
-        [ 81., 101.],
-        [119., 133.],
-        [ 22.,  37.],
-        [103., 119.],
-        [ 56.,  70.],
-        [ 81., 101.],
-        [119., 133.],
-        [ 22.,  37.],
-        [103., 119.],
-        [ 56.,  70.],
-        [ 81., 101.],
-        [119., 133.],
-        [ 22.,  37.],
-        [103., 119.],
-        [ 56.,  70.],
-        [ 81., 101.],
-        [119., 133.],
-        [ 22.,  37.],
-        [103., 119.],
-        [ 56.,  70.],
-        [ 81., 101.],
-        [119., 133.],
-        [ 22.,  37.],
-        [103., 119.]])
+ tensor([[-0.4777],
+        [ 1.5712],
+        [-1.3306],
+        [-0.0682],
+        [ 0.1605],
+        [ 0.3564],
+        [ 0.0640],
+        [ 0.4992]])
 </pre></div>
 </div>
 </div>
@@ -684,16 +599,16 @@ Targets:
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "deeplearning"
+            mode: "python"
         },
         kernelOptions: {
-            name: "deeplearning",
+            name: "python3",
             path: "./labs"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'deeplearning'</script>
+    <script>kernelName = 'python3'</script>
 
                 </article>
               
