@@ -13,5 +13,6 @@ parts:
     - file: labs/Lab3
     - file: labs/Lab4
     - file: labs/Lab5
+    - file: labs/Lab6
 
   
