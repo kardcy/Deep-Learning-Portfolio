@@ -5,7 +5,7 @@ logo: "images/logo.png"        # Optional, place your logo in images/
 
 # Jupyter Book settings
 execute:
-  execute_notebooks: auto      # auto | force | cache | off
+  execute_notebooks: off      # auto | force | cache | off
   timeout: 60                  # Max seconds for each cell
 
 # HTML settings
