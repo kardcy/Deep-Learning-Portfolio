@@ -422,7 +422,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-runtime-summary">Plot Runtime Summary</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-analysis">Results and Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-analysis">Results and Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-of-small-batch-size-batch-16">Performance of Small Batch Size (Batch = 16)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior-of-medium-batch-size-batch-64">Behavior of Medium Batch Size (Batch = 64)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-large-batch-size-batch-256">Limitations of Large Batch Size (Batch = 256)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-interpretation-and-trade-offs">Overall Interpretation and Trade-offs</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-for-future-model-tuning">Insights for Future Model Tuning</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
@@ -531,177 +537,10 @@ w_{t+1} = w_t - \eta \cdot \frac{1}{m} \sum_{i=1}^{m} \nabla L_i(w_t)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                             | 0.00/26.4M [00:00&lt;?, ?B/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|▏                                                                                                                                   | 32.8k/26.4M [00:01&lt;21:33, 20.4kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|▎                                                                                                                                   | 65.5k/26.4M [00:02&lt;15:42, 28.0kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|▍                                                                                                                                   | 98.3k/26.4M [00:04&lt;23:23, 18.8kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|▋                                                                                                                                    | 131k/26.4M [00:06&lt;23:13, 18.9kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▊                                                                                                                                    | 164k/26.4M [00:08&lt;23:19, 18.8kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▉                                                                                                                                    | 197k/26.4M [00:11&lt;28:49, 15.2kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▏                                                                                                                                   | 229k/26.4M [00:13&lt;28:05, 15.5kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▎                                                                                                                                   | 262k/26.4M [00:15&lt;29:56, 14.6kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▍                                                                                                                                   | 295k/26.4M [00:17&lt;25:45, 16.9kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▋                                                                                                                                   | 328k/26.4M [00:19&lt;26:17, 16.5kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▊                                                                                                                                   | 360k/26.4M [00:21&lt;27:20, 15.9kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|█▉                                                                                                                                   | 393k/26.4M [00:23&lt;28:20, 15.3kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▏                                                                                                                                  | 426k/26.4M [00:25&lt;26:57, 16.1kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▎                                                                                                                                  | 459k/26.4M [00:27&lt;24:19, 17.8kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▍                                                                                                                                  | 492k/26.4M [00:28&lt;22:53, 18.9kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▋                                                                                                                                  | 524k/26.4M [00:29&lt;20:24, 21.2kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▊                                                                                                                                  | 557k/26.4M [00:31&lt;20:34, 20.9kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▉                                                                                                                                  | 590k/26.4M [00:32&lt;18:34, 23.2kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|███▏                                                                                                                                 | 623k/26.4M [00:33&lt;18:40, 23.0kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|███▎                                                                                                                                 | 655k/26.4M [00:35&lt;20:12, 21.3kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|███▍                                                                                                                                 | 688k/26.4M [00:37&lt;22:12, 19.3kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|███▋                                                                                                                                 | 721k/26.4M [00:39&lt;24:09, 17.7kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|███▊                                                                                                                                 | 754k/26.4M [00:41&lt;24:11, 17.7kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|███▉                                                                                                                                 | 786k/26.4M [00:43&lt;23:23, 18.3kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|████                                                                                                                                 | 819k/26.4M [00:45&lt;24:25, 17.5kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|████▎                                                                                                                                | 852k/26.4M [00:47&lt;26:53, 15.8kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|████▍                                                                                                                                | 885k/26.4M [00:50&lt;29:16, 14.5kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|████▌                                                                                                                                | 918k/26.4M [00:52&lt;28:40, 14.8kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|████▊                                                                                                                                | 950k/26.4M [00:55&lt;31:30, 13.5kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|████▉                                                                                                                                | 983k/26.4M [00:58&lt;34:03, 12.5kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|████▉                                                                                                                                | 983k/26.4M [00:59&lt;25:29, 16.6kB/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">FashionMNIST</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()])</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">trainset</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">testset</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\site-packages\torchvision\datasets\mnist.py:100,</span> in <span class="ni">MNIST.__init__</span><span class="nt">(self, root, train, transform, target_transform, download)</span>
-<span class="g g-Whitespace">     </span><span class="mi">97</span>     <span class="k">return</span>
-<span class="g g-Whitespace">     </span><span class="mi">99</span> <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">100</span>     <span class="bp">self</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">102</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_exists</span><span class="p">():</span>
-<span class="g g-Whitespace">    </span><span class="mi">103</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Dataset not found. You can use download=True to download it&quot;</span><span class="p">)</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\site-packages\torchvision\datasets\mnist.py:188,</span> in <span class="ni">MNIST.download</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">186</span> <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mirror</span><span class="si">}{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">187</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">188</span>     <span class="n">download_and_extract_archive</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">download_root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">md5</span><span class="o">=</span><span class="n">md5</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">189</span> <span class="k">except</span> <span class="n">URLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">190</span>     <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\site-packages\torchvision\datasets\utils.py:388,</span> in <span class="ni">download_and_extract_archive</span><span class="nt">(url, download_root, extract_root, filename, md5, remove_finished)</span>
-<span class="g g-Whitespace">    </span><span class="mi">385</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">386</span>     <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">388</span> <span class="n">download_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">download_root</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">md5</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">390</span> <span class="n">archive</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">download_root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">391</span> <span class="n">extract_archive</span><span class="p">(</span><span class="n">archive</span><span class="p">,</span> <span class="n">extract_root</span><span class="p">,</span> <span class="n">remove_finished</span><span class="p">)</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\site-packages\torchvision\datasets\utils.py:127,</span> in <span class="ni">download_url</span><span class="nt">(url, root, filename, md5, max_redirect_hops)</span>
-<span class="g g-Whitespace">    </span><span class="mi">125</span> <span class="c1"># download the file</span>
-<span class="g g-Whitespace">    </span><span class="mi">126</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">127</span>     <span class="n">_urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">fpath</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">128</span> <span class="k">except</span> <span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">URLError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># type: ignore[attr-defined]</span>
-<span class="g g-Whitespace">    </span><span class="mi">129</span>     <span class="k">if</span> <span class="n">url</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;https&quot;</span><span class="p">:</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\site-packages\torchvision\datasets\utils.py:30,</span> in <span class="ni">_urlretrieve</span><span class="nt">(url, filename, chunk_size)</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="n">USER_AGENT</span><span class="p">}))</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">,</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">unit_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">30</span>         <span class="k">while</span> <span class="n">chunk</span> <span class="o">:=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">31</span>             <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">32</span>             <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">))</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\http\client.py:458,</span> in <span class="ni">HTTPResponse.read</span><span class="nt">(self, amt)</span>
-<span class="g g-Whitespace">    </span><span class="mi">455</span> <span class="k">if</span> <span class="n">amt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">456</span>     <span class="c1"># Amount is given, implement using readinto</span>
-<span class="g g-Whitespace">    </span><span class="mi">457</span>     <span class="n">b</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">amt</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">458</span>     <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">459</span>     <span class="k">return</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">b</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">460</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">461</span>     <span class="c1"># Amount is not given (unbounded read) so we must check self.length</span>
-<span class="g g-Whitespace">    </span><span class="mi">462</span>     <span class="c1"># and self.chunked</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\http\client.py:502,</span> in <span class="ni">HTTPResponse.readinto</span><span class="nt">(self, b)</span>
-<span class="g g-Whitespace">    </span><span class="mi">497</span>         <span class="n">b</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">499</span> <span class="c1"># we do not use _safe_read() here because this may be a .will_close</span>
-<span class="g g-Whitespace">    </span><span class="mi">500</span> <span class="c1"># connection, and the user is reading more bytes than will be provided</span>
-<span class="g g-Whitespace">    </span><span class="mi">501</span> <span class="c1"># (for example, reading in 1k chunks)</span>
-<span class="ne">--&gt; </span><span class="mi">502</span> <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">503</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">b</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">504</span>     <span class="c1"># Ideally, we would raise IncompleteRead if the content-length</span>
-<span class="g g-Whitespace">    </span><span class="mi">505</span>     <span class="c1"># wasn&#39;t satisfied, but it might break compatibility.</span>
-<span class="g g-Whitespace">    </span><span class="mi">506</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_close_conn</span><span class="p">()</span>
-
-<span class="nn">File ~\anaconda3\envs\DeepLearning\lib\socket.py:704,</span> in <span class="ni">SocketIO.readinto</span><span class="nt">(self, b)</span>
-<span class="g g-Whitespace">    </span><span class="mi">702</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">703</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">704</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">705</span>     <span class="k">except</span> <span class="n">timeout</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">706</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_occurred</span> <span class="o">=</span> <span class="kc">True</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████| 26.4M/26.4M [15:03&lt;00:00, 29.2kB/s]
+100%|█████████████████████████████████████████████████████████████████████████████| 29.5k/29.5k [00:01&lt;00:00, 25.7kB/s]
+100%|█████████████████████████████████████████████████████████████████████████████| 4.42M/4.42M [02:52&lt;00:00, 25.7kB/s]
+100%|█████████████████████████████████████████████████████████████████████████████| 5.15k/5.15k [00:01&lt;00:00, 3.32kB/s]
 </pre></div>
 </div>
 </div>
@@ -805,6 +644,22 @@ w_{t+1} = w_t - \eta \cdot \frac{1}{m} \sum_{i=1}^{m} \nabla L_i(w_t)
 <img alt="../_images/b1b3e999f69d9cdffcf4f9730108035642c1787c672cf0d772759996018e5f90.png" src="../_images/b1b3e999f69d9cdffcf4f9730108035642c1787c672cf0d772759996018e5f90.png" />
 </div>
 </div>
+<ol class="arabic simple">
+<li><p>Smaller batch sizes achieve consistently lower training loss</p></li>
+</ol>
+<p>Smaller batches introduce more noise in gradient updates, which often leads to better generalization and faster convergence. The model trained with batch size 16 learns more effectively, reflected in its lower loss trend.</p>
+<ol class="arabic simple" start="2">
+<li><p>Larger batch sizes converge more slowly</p></li>
+</ol>
+<p>Large batch sizes produce smoother gradients, but this can slow down optimization. The model becomes less responsive to small patterns in the data, leading to slower training progress.</p>
+<ol class="arabic simple" start="3">
+<li><p>All batch sizes show improvement over epochs</p></li>
+</ol>
+<p>The training process is working, but the efficiency of learning depends heavily on batch size.</p>
+<ol class="arabic simple" start="4">
+<li><p>Diminishing improvements at later epochs</p></li>
+</ol>
+<p>This is typical in training curves where early epochs capture large-scale patterns. While later epochs fine-tune smaller details, resulting in slower loss reduction.</p>
 </section>
 <section id="plot-accuracy">
 <h3>Plot Accuracy<a class="headerlink" href="#plot-accuracy" title="Link to this heading">#</a></h3>
@@ -825,6 +680,22 @@ w_{t+1} = w_t - \eta \cdot \frac{1}{m} \sum_{i=1}^{m} \nabla L_i(w_t)
 <img alt="../_images/3d9fd2f101a63125645a450d6f10124aeef11571d141c0a129b1710cb29873e2.png" src="../_images/3d9fd2f101a63125645a450d6f10124aeef11571d141c0a129b1710cb29873e2.png" />
 </div>
 </div>
+<ol class="arabic simple">
+<li><p>Smaller batch sizes yield higher accuracy</p></li>
+</ol>
+<p>This mirrors the loss graph: smaller batches lead to better optimization and better generalization by introducing noise in gradient calculations. This noise acts like a regularizer, improving learning efficiency.</p>
+<ol class="arabic simple" start="2">
+<li><p>Accuracy improves steadily across all batch sizes</p></li>
+</ol>
+<p>This confirms that regardless of batch size, the model is learning meaningful patterns. Early epochs capture core structure, while later epochs refine details.</p>
+<ol class="arabic simple" start="3">
+<li><p>Performance gap widens between small and large batch sizes</p></li>
+</ol>
+<p>Large batches converge more slowly and tend to generalize slightly worse. Even with more epochs, they rarely catch up to small-batch performance.</p>
+<ol class="arabic simple" start="4">
+<li><p>Batch 256 has the slowest improvement</p></li>
+</ol>
+<p>Large batches produce smoother gradients, which slows adaptation to the data’s complexity. The model becomes more stable—but less flexible—during training.</p>
 </section>
 <section id="plot-runtime-summary">
 <h3>Plot Runtime Summary<a class="headerlink" href="#plot-runtime-summary" title="Link to this heading">#</a></h3>
@@ -850,32 +721,47 @@ Batch Size 256: Runtime = 142.28 sec, Final Acc = 87.62%
 <h2>Results and Analysis<a class="headerlink" href="#results-and-analysis" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p><strong>Batch Size</strong></p></th>
-<th class="head"><p><strong>Final Accuracy</strong></p></th>
-<th class="head"><p><strong>Training Runtime (sec)</strong></p></th>
-<th class="head"><p><strong>Behavior and Interpretation</strong></p></th>
+<tr class="row-odd"><th class="head"><p>Batch Size</p></th>
+<th class="head"><p>Final Accuracy</p></th>
+<th class="head"><p>Training Runtime (sec)</p></th>
+<th class="head"><p>Behavior and Interpretation</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>16</strong></p></td>
 <td><p><strong>91.66%</strong></p></td>
 <td><p><strong>232.77</strong></p></td>
-<td><p>Small batches introduce greater gradient noise, which helps the model generalize better by escaping sharp local minima. However, the high variability in updates makes training slower.</p></td>
+<td><p>Small batches introduce high gradient noise, which helps the optimizer escape sharp local minima and explore the loss landscape more effectively. This often leads to <strong>flatter minima</strong>, which are strongly correlated with better generalization. However, the stochasticity increases computation time since more parameter updates occur per epoch.</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>64</strong></p></td>
 <td><p><strong>89.80%</strong></p></td>
 <td><p><strong>161.03</strong></p></td>
-<td><p>Medium-sized batches provide a balance between stability and stochasticity. The gradient estimates are smoother, resulting in faster convergence but slightly reduced generalization.</p></td>
+<td><p>Medium-sized batches strike a balance between stability and stochasticity. They provide smoother gradient estimates that accelerate convergence while retaining some regularizing noise. This batch size typically represents a good compromise—fast enough to train efficiently, but still capable of avoiding overly sharp minima.</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>256</strong></p></td>
 <td><p><strong>87.62%</strong></p></td>
 <td><p><strong>142.28</strong></p></td>
-<td><p>Large batches produce near-deterministic gradient updates, leading to faster training but poorer generalization due to convergence toward sharp minima. These often require learning rate scaling to maintain performance.</p></td>
+<td><p>Large batches produce almost deterministic gradient updates, reducing training variance significantly. While this speeds up training, the optimizer tends to converge to <strong>sharper minima</strong>, which are known to generalize poorly. Large batches often require techniques like <strong>learning rate warmup, gradient accumulation, or linear scaling</strong> to avoid degradation in model quality.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>As batch size increases, training becomes faster but at the cost of reduced model accuracy. Smaller batches, while computationally expensive, inject beneficial noise into the optimization process—helping the model explore the loss surface more effectively and avoid overfitting to local minima. Conversely, very large batches lead to smoother, more stable gradient estimates but risk converging to sharp minima, making the model less robust to unseen data.</p>
+<section id="performance-of-small-batch-size-batch-16">
+<h3>Performance of Small Batch Size (Batch = 16)<a class="headerlink" href="#performance-of-small-batch-size-batch-16" title="Link to this heading">#</a></h3>
+<p>The model trained with a batch size of 16 achieves the highest accuracy at 91.66% but also requires the longest runtime at 232.77 seconds. This behavior is expected because small batches introduce higher gradient noise, which helps the optimizer escape sharp local minima and explore the loss landscape more effectively. The added stochasticity encourages convergence toward flatter minima—solutions that generalize better to unseen data. Although this results in slower training due to more frequent parameter updates, the improved generalization performance makes small batches advantageous when accuracy is the primary goal.</p>
+</section>
+<section id="behavior-of-medium-batch-size-batch-64">
+<h3>Behavior of Medium Batch Size (Batch = 64)<a class="headerlink" href="#behavior-of-medium-batch-size-batch-64" title="Link to this heading">#</a></h3>
+<p>Using a batch size of 64 yields a final accuracy of 89.80% with a noticeably shorter runtime of 161.03 seconds. This configuration strikes a balance between the instability of small batches and the determinism of large batches. The gradients are smoother and more stable than those of batch size 16, allowing for faster convergence, yet still contain enough noise to prevent the optimizer from falling into overly sharp minima. As a result, batch size 64 provides a practical compromise when both training efficiency and model performance are important considerations.</p>
+</section>
+<section id="limitations-of-large-batch-size-batch-256">
+<h3>Limitations of Large Batch Size (Batch = 256)<a class="headerlink" href="#limitations-of-large-batch-size-batch-256" title="Link to this heading">#</a></h3>
+<p>The largest batch size, 256, produces the fastest training time at 142.28 seconds but the lowest accuracy at 87.62%. Large batches dramatically reduce gradient variance, making the optimization path more rigid and limiting the model’s ability to explore different regions of the loss surface. This often leads to convergence toward sharp minima that fit the training data well but fail to generalize effectively. Without additional techniques such as learning rate scaling or warm-up schedules, large-batch training tends to underperform in terms of accuracy, as reflected in these results.</p>
+</section>
+<section id="overall-interpretation-and-trade-offs">
+<h3>Overall Interpretation and Trade-offs<a class="headerlink" href="#overall-interpretation-and-trade-offs" title="Link to this heading">#</a></h3>
+<p>Across all batch sizes, a clear trade-off emerges: larger batches significantly accelerate training but consistently degrade model performance. Smaller batches, though computationally more expensive, benefit from the implicit regularization created by gradient noise, guiding the optimizer toward flatter and more robust minima. Conversely, very large batches produce smoother but less flexible gradient updates, which restrict exploration and increase the risk of converging to narrow, less generalizable solutions. These outcomes align with established deep learning theory and highlight that the optimal batch size depends on the objective—accuracy favors smaller batches, while efficiency favors larger ones.</p>
+</section>
 </section>
 <hr class="docutils" />
 <section id="insights-for-future-model-tuning">
@@ -887,8 +773,11 @@ Batch Size 256: Runtime = 142.28 sec, Final Acc = 87.62%
 <li><p>Combine with learning rate scaling or gradient accumulation to maintain stability.</p></li>
 <li><p>Always visualize loss curves — noisy curves suggest smaller batches, smooth curves larger ones.</p></li>
 </ul>
-</section>
 <hr class="docutils" />
+<blockquote>
+<div><p>So, to answer the question <strong>“Does size matter?”</strong>—absolutely. The choice of batch size fundamentally shapes how a deep learning model learns, what kinds of solutions it converges to, and how well it performs in the real world. Smaller batches encourage richer exploration and stronger generalization, while larger batches prioritize speed at the expense of robustness. In the end, batch size is not just a computational detail—it is a strategic decision that directly determines the balance between efficiency and accuracy in deep learning performance.</p>
+</div></blockquote>
+</section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -976,7 +865,13 @@ Batch Size 256: Runtime = 142.28 sec, Final Acc = 87.62%
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-runtime-summary">Plot Runtime Summary</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-analysis">Results and Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-and-analysis">Results and Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-of-small-batch-size-batch-16">Performance of Small Batch Size (Batch = 16)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior-of-medium-batch-size-batch-64">Behavior of Medium Batch Size (Batch = 64)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations-of-large-batch-size-batch-256">Limitations of Large Batch Size (Batch = 256)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-interpretation-and-trade-offs">Overall Interpretation and Trade-offs</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insights-for-future-model-tuning">Insights for Future Model Tuning</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
